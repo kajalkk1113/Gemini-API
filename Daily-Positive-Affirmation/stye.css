@@ -1,0 +1,31 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #c0d0eb, #f5c5fa);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #4c4c9d;
+}
+
+#box {
+  min-height: 100px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #f0f4ff;
+  color: #333;
+  border-left: 5px solid #5f9cff;
+}
