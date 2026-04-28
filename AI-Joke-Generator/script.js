@@ -1,5 +1,5 @@
-const API_KEY ="AIzaSyCVGfTHQO7lkrrRj_sDBWWtLsIPLjUzvX4"; 
-const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
+const API_KEY = import.meta.env.VITE_API_KEY;
+const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 let btn = document.getElementById("jokeBtn");
 let jokeText = document.getElementById("jokeText");
 

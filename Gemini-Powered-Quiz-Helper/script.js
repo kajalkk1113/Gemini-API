@@ -1,4 +1,4 @@
-const API_KEY = "AIzaSyBi1H4_Sx7UlAFjL1_hHQZQ0OIa3jRUtGM";
+const API_KEY = import.meta.env.VITE_API_KEY;
 const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
 
 let userInput = document.getElementById("input");

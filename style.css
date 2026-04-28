@@ -13,8 +13,7 @@ body {
   
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Keeps the background still while scrolling */
-
+  background-attachment: fixed; 
   min-height: 100vh;
  
 }
@@ -70,7 +69,6 @@ h1 {
   margin-bottom: 25px;
 }
 
-/* Button - Modern Solid look to contrast the glass */
 .card a {
   text-decoration: none;
   background: #4f46e5;
@@ -89,7 +87,6 @@ h1 {
   transform: scale(1.03);
 }
 
-/* Responsive */
 @media (max-width: 800px) {
   .container {
     grid-template-columns: 1fr;

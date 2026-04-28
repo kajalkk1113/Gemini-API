@@ -1,5 +1,7 @@
-const API_KEY = "AIzaSyBi1H4_Sx7UlAFjL1_hHQZQ0OIa3jRUtGM";
-const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
+const API_KEY = import.meta.env.VITE_API_KEY;
+const URL = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+console.log(import.meta.env);
+console.log(import.meta.env.VITE_API_KEY);
 
 
 //Ask me anything
@@ -16,7 +18,6 @@ try {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             contents: [{
-                role: "user",
                 parts: [{
                     text: `Answer this question in simple way in short with example in plain text only not using bold or stars:\n${input}`
                 }]
@@ -50,7 +51,6 @@ try {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             contents: [{
-                role: "user",
                 parts: [{
                     text: `Summarize this text in short:\n${input}`
                 }]
@@ -84,7 +84,6 @@ try {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             contents: [{
-                role: "user",
                 parts: [{
                     text: `Give 3 creative ideas in short with in plain text only not using bold or stars:\n${input}`
                 }]
@@ -119,7 +118,6 @@ try {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             contents: [{
-                role: "user",
                 parts: [{
                     text: `Define this in short, simple words with example in short with example in plain text only not using bold or stars:\n${input}`
                 }]

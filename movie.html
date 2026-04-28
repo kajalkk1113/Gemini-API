@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 TrailerHub - Movie Trailers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --secondary-gradient: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow-lg: 0 25px 45px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 35px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: float 20s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-20px) rotate(360deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        /* SUGGESTIONS SECTION - LIKE REAL WEBSITES */
+        .suggestions-section {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            animation: slideUp 1s ease-out 0.6s both;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .suggestion-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .suggestion-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--secondary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .suggestion-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .suggestion-poster {
+            width: 100%;
+            height: 160px;
+            border-radius: 16px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .suggestion-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            height: 2.6em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .suggestion-play {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .suggestion-play:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .search-wrapper {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            height: 64px;
+        }
+
+        .search-wrapper:focus-within {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        #searchInput {
+            width: 100%;
+            height: 100%;
+            padding: 0 90px 0 30px;
+            font-size: 1.1rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+        }
+
+        #searchInput::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--secondary-gradient);
+            border: none;
+            padding: 0 24px;
+            height: 56px;
+            border-radius: 28px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 3;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) translateX(-2px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            animation: slideUp 1s ease-out 0.9s both;
+        }
+
+        .movie-card, .result-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .movie-card::before, .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--secondary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover::before, .result-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .movie-card:hover, .result-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .movie-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .movie-poster {
+            width: 80px;
+            height: 120px;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        .movie-info h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .movie-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .trailer-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .trailer-container iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.3rem;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Hide sections */
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .suggestions-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+            .results { grid-template-columns: 1fr; gap: 20px; }
+            .movie-header { flex-direction: column; text-align: center; }
+            .movie-poster { width: 70px; height: 105px; align-self: center; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-film"></i> TrailerHub</h1>
+            <p>Discover official movie trailers in seconds</p>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Search movies... (Avengers, Inception, Dune)">
+                <button class="search-btn" onclick="searchMovies()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- POPULAR MOVIE SUGGESTIONS - 10 TRAILERS -->
+        <div class="suggestions-section" id="suggestionsSection">
+            <div class="section-title">
+                <i class="fas fa-fire"></i>
+                Popular Trailers
+            </div>
+            <div class="suggestions-grid" id="suggestionsGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading popular trailers...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEARCH RESULTS -->
+        <div class="results hidden" id="results">
+            <!-- Search results will appear here -->
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = 'AIzaSyDHCLUL7c5CkHDIle7o9nI6solPU-TjN6g';
+        const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
+        const resultsDiv = document.getElementById('results');
+        const suggestionsGrid = document.getElementById('suggestionsGrid');
+        const suggestionsSection = document.getElementById('suggestionsSection');
+        const searchInput = document.getElementById('searchInput');
+
+        // 10 Popular movie suggestions
+        const popularMovies = [
+            'Dune 2 official trailer',
+            'Oppenheimer official trailer', 
+            'Avengers Endgame official trailer',
+            'Spider-Man No Way Home official trailer',
+            'Top Gun Maverick official trailer',
+            'Barbie official trailer',
+            'John Wick 4 official trailer',
+            'Deadpool 2 official trailer',
+            'Inception official trailer',
+            'The Batman official trailer'
+        ];
+
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchMovies();
+        });
+
+        // Load everything on page load
+        window.addEventListener('load', async () => {
+            searchInput.focus();
+            await loadPopularSuggestions();
+        });
+
+        async function loadPopularSuggestions() {
+            showSuggestionsLoading();
+            
+            try {
+                const allSuggestions = [];
+                
+                // Load trailers for all 10 popular movies
+                for (const movie of popularMovies) {
+                    try {
+                        const response = await fetch(
+                            `${BASE_URL}?part=snippet&q=${encodeURIComponent(movie)}&type=video&videoDefinition=high&maxResults=1&key=${API_KEY}`
+                        );
+                        const data = await response.json();
+                        
+                        if (data.items && data.items.length > 0) {
+                            allSuggestions.push(data.items[0]);
+                        }
+                    } catch (error) {
+                        console.error(`Error loading ${movie}:`, error);
+                    }
+                }
+
+                displaySuggestions(allSuggestions.slice(0, 10));
+            } catch (error) {
+                console.error('Error loading suggestions:', error);
+                suggestionsGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.6);">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                                                trailers. Try searching!</p>
+                    </div>
+                `;
+            }
+        }
+
+        function showSuggestionsLoading() {
+            suggestionsGrid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: white;">
+                    <div class="spinner"></div>
+                    <p>Loading popular trailers...</p>
+                </div>
+            `;
+        }
+
+        function displaySuggestions(videos) {
+            suggestionsGrid.innerHTML = videos.map((video, index) => {
+                return `
+                    <div class="suggestion-card" onclick="playSuggestion('${video.id.videoId}', '${video.snippet.title.replace(/'/g, "\\'")}', ${index})">
+                        <img src="${video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium.url}" 
+                             alt="${video.snippet.title}" 
+                             class="suggestion-poster"
+                             loading="lazy">
+                        <div class="suggestion-title">${video.snippet.title}</div>
+                        <button class="suggestion-play">
+                            <i class="fas fa-play"></i>
+                            Watch Trailer
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function playSuggestion(videoId, title, index) {
+            // Fill search input with movie name
+            const movieNames = [
+                'Dune 2', 'Oppenheimer', 'Avengers Endgame', 'Spider-Man No Way Home', 
+                'Top Gun Maverick', 'Barbie', 'John Wick 4', 'Deadpool 2', 'Inception', 'The Batman'
+            ];
+            
+            searchInput.value = movieNames[index];
+            
+            // Show single trailer result
+            resultsDiv.innerHTML = `
+                <div class="result-card" style="max-width: 800px; margin: 0 auto; grid-column: 1/-1;">
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <h2 style="color: white; font-size: 2rem; margin-bottom: 10px;">
+                            <i class="fas fa-film"></i> ${title}
+                        </h2>
+                        <button class="search-btn" onclick="clearSearch()" style="padding: 12px 30px; font-size: 1rem;">
+                            <i class="fas fa-arrow-left"></i> Back to Popular
+                        </button>
+                    </div>
+                    <div class="trailer-container" style="height: 450px;">
+                        <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" 
+                                title="${title}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            `;
+            
+            // Show results, hide suggestions
+            suggestionsSection.classList.add('hidden');
+            resultsDiv.classList.remove('hidden');
+            
+            // Scroll to trailer
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function searchMovies() {
+            const query = searchInput.value.trim();
+            if (!query) {
+                alert('Please enter a movie name!');
+                return;
+            }
+
+            // Hide suggestions, show results
+            suggestionsSection.classList.add('hidden');
+            resultsDiv.classList.remove('hidden');
+
+            showLoading();
+
+            try {
+                const response = await fetch(
+                    `${BASE_URL}?part=snippet&q=${encodeURIComponent(query + ' official trailer')}&type=video&videoDefinition=high&maxResults=8&key=${API_KEY}`
+                );
+                const data = await response.json();
+
+                if (data.items && data.items.length > 0) {
+                    displayResults(data.items);
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search"></i>
+                            <p>No trailers found. Try different keywords!</p>
+                            <button class="search-btn" onclick="clearSearch()" style="margin-top: 20px; padding: 15px 40px; font-size: 1.1rem;">
+                                <i class="fas fa-arrow-left"></i> Back to Popular
+                            </button>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                resultsDiv.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Oops! Something went wrong. Please try again.</p>
+                        <button class="search-btn" onclick="clearSearch()" style="margin-top: 20px; padding: 15px 40px; font-size: 1.1rem;">
+                            <i class="fas fa-arrow-left"></i> Back to Popular
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function showLoading() {
+            resultsDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Finding the best trailers for you...</p>
+                </div>
+            `;
+        }
+
+        function displayResults(videos) {
+            resultsDiv.innerHTML = videos.map(video => {
+                const publishedDate = new Date(video.snippet.publishedAt).toLocaleDateString();
+                
+                return `
+                    <div class="movie-card">
+                        <div class="movie-header">
+                            <img src="${video.snippet.thumbnails.high?.url || video.snippet.thumbnails.medium.url}" 
+                                 alt="${video.snippet.title}" 
+                                 class="movie-poster"
+                                 loading="lazy">
+                            <div class="movie-info">
+                                <h3>${video.snippet.title}</h3>
+                                <div class="movie-meta">
+                                    <span><i class="fas fa-calendar"></i> ${publishedDate}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="trailer-container">
+                            <iframe src="https://www.youtube.com/embed/${video.id.videoId}?autoplay=0&rel=0" 
+                                    title="${video.snippet.title}" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `
+                <div style="grid-column: 1/-1; text-align: center; margin-top: 30px;">
+                    <button class="search-btn" onclick="clearSearch()" style="padding: 15px 40px; font-size: 1.1rem;">
+                        <i class="fas fa-arrow-left"></i> Back to Popular Trailers
+                    </button>
+                </div>
+            `;
+        }
+
+        // Clear search and return to popular suggestions
+        function clearSearch() {
+            searchInput.value = '';
+            suggestionsSection.classList.remove('hidden');
+            resultsDiv.classList.add('hidden');
+            suggestionsGrid.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
