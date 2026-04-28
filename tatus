@@ -1,0 +1,132 @@
+[1mdiff --git a/AI-Joke-Generator/Practice.js b/AI-Joke-Generator/Practice.js[m
+[1mdeleted file mode 100644[m
+[1mindex ac14d1f..0000000[m
+[1m--- a/AI-Joke-Generator/Practice.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,126 +0,0 @@[m
+[31m-// let a = [1, 2];[m
+[31m-// let b = [3, 4];[m
+[31m-[m
+[31m-// let result = [...a,...b][m
+[31m-// console.log(result);[m
+[31m-[m
+[31m-[m
+[31m-// function greet(name="guest"){[m
+[31m-//     return `hello,${name}`[m
+[31m-// }[m
+[31m-// console.log(greet());[m
+[31m-[m
+[31m-[m
+[31m-[m
+[31m-// let user = {};[m
+[31m-[m
+[31m-// console.log(user?.address?.city);[m
+[31m-[m
+[31m-[m
+[31m-// let userInput = null;[m
+[31m-[m
+[31m-// console.log(userInput??"Default value");[m
+[31m-[m
+[31m-// setTimeout(()=>{[m
+[31m-//     console.log("hello after 2 second");[m
+[31m-    [m
+[31m-// },2000)[m
+[31m-[m
+[31m-[m
+[31m-// let promise = new Promise((resolve, reject)=>{[m
+[31m-//     setTimeout(()=>{[m
+[31m-//         resolve("Done")[m
+[31m-//     },2000)[m
+[31m-// })[m
+[31m-[m
+[31m-// promise.then(res=>console.log(res))[m
+[31m-[m
+[31m-[m
+[31m-// Promise.resolve(1)[m
+[31m-// .then(num =>{[m
+[31m-//     console.log(num);[m
+[31m-//     return num+1[m
+[31m-// })[m
+[31m-// .then(num=>{[m
+[31m-//     console.log(num);[m
+[31m-//     return num+1[m
+[31m-    [m
+[31m-// })[m
+[31m-// .then(num=>console.log(num));[m
+[31m-[m
+[31m-[m
+[31m-// async function run(){[m
+[31m-//     let res = await Promise.resolve("hello")[m
+[31m-//     console.log(res);   [m
+[31m-// }[m
+[31m-// run()[m
+[31m-[m
+[31m-// fetch("https://jsonplaceholder.typicode.com/users")[m
+[31m-// .then(res => res.json())[m
+[31m-// .then(data=>{[m
+[31m-//     data.forEach(user=>console.log(user.name))[m
+[31m-// })[m
+[31m-[m
+[31m-[m
+[31m-// fetch ("https://jsonplaceholder.typicode.com/users")[m
+[31m-// .then(res =>{[m
+[31m-//     if(!res.ok){[m
+[31m-//         throw new Error("Error")[m
+[31m-//     }[m
+[31m-//     return res.json();[m
+[31m-// })[m
+[31m-// .then(data => console.log(data))[m
+[31m-// .then(err=> console.log(err))[m
+[31m-[m
+[31m-[m
+[31m-// let obj = {name:"kajal"};[m
+[31m-// let json = JSON.stringify(obj);[m
+[31m-// console.log(json);[m
+[31m-// let back = JSON.parse(json);[m
+[31m-// console.log(back);[m
+[31m-[m
+[31m-// fetch("https://jsonplaceholder.typicode.com/posts", {[m
+[31m-//   method: "POST",[m
+[31m-//   headers: {[m
+[31m-//     "Content-Type": "application/json"[m
+[31m-//   },[m
+[31m-//   body: JSON.stringify({[m
+[31m-//     title: "Hello",[m
+[31m-//     body: "World"[m
+[31m-//   })[m
+[31m-// })[m
+[31m-// .then(res => res.json())[m
+[31m-// .then(data => console.log(data));[m
+[31m-[m
+[31m-[m
+[31m-// async function getData(params) {[m
+[31m-//     const question = input.value;[m
+[31m-[m
+[31m-//    try{[m
+[31m-//     const response = await fetch(URL,{[m
+[31m-//         method:"POST",[m
+[31m-//         headers:{"Content-Type":"application/json"},[m
+[31m-//         body:JSON.stringify({[m
+[31m-//             contents:[{[m
+[31m-//                 role:"user",[m
+[31m-//                 parts:[{[m
+[31m-//                     text:"you are user friendly give answer in easy"[m
+[31m-//                 }][m
+[31m-//             }][m
+[31m-//         })[m
+[31m-//     })[m
+[31m-[m
+[31m-//     const data = await response.json();[m
+[31m-//     const output = data.candidates?.[0]?.content?.parts?.[0]?.text ||"failed"[m
+[31m-[m
+[31m-//    } catch(error){[m
+[31m-//     console.error("error")[m
+[31m-//    }[m
+[31m-// }[m
+[31m-[m
+[31m-// setTimeout(()=>{[m
+[31m-//     console.log("hello world")[m
+[31m-// },3000)[m
+[31m-[m
+[31m-[m
+[31m-[m

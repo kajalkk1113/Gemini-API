@@ -1,0 +1,11 @@
+AI-Joke-Generator/Chat App/
+AI-Joke-Generator/movie/
+
+git rm -r --cached "AI-Joke-Generator/Chat App"
+movie.html
+git rm -r --cached "AI-Joke-Generator/movie"
+
+git commit -m "Ignored movie and chat folders"
+
+git push origin main
+
